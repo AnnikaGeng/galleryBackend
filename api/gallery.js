@@ -35,11 +35,11 @@ routes.route("/download/today").post(async (req, res) => {
         return
     }
 
-    // if (!apiResponse.ok) {
-    //     res.status(400).json(reachError)
-    //     console.error(reachError)
-    //     return
-    // }
+    if (!apiResponse.ok) {
+        res.status(400).json(reachError)
+        console.error(reachError)
+        return
+    }
 
     // Now the request should be fine
     apiResult = await apiResponse.json()
