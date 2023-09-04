@@ -7,7 +7,7 @@ const path = require("path")
 // node-fetch v3 is an ESM-only module, you are not able to import it with a normal require().
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const dbo = require("../database/conn");
-const api = "https://api.nasa.gov/planetary/apod?api_key=DRfX3oJpIjZ4Kof1hM6xmSZr082CDNvYBC0cDJpR"
+const api = process.env.API
 /**
  * This route will download the the APOD of this day and store it 
  * into the database.
@@ -115,6 +115,7 @@ routes.route("/today").get(async (req, res) => {
     }
 
     try {
+        console.log(api)
         apiResponse = await fetch(api)
     } catch (error) {
         res.status(400).json(fetchError)
