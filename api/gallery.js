@@ -162,12 +162,6 @@ routes.route("/").get(function (req, res) {
   const offset = (page - 1) * pageSize;
 
   // TODO: This route will serve the frontend. Implementation is needed.
-  // ImageData = db.all(`SELECT * FROM images;`, [], (err, rows) => {
-  //   if (err) {
-  //     console.error(err.message);
-  //   }
-  //   res.send(rows);
-  // });
 
   db.all(
     `SELECT * FROM images LIMIT ? OFFSET ?;`,
