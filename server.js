@@ -1,13 +1,13 @@
-const express = require("express")
-const routes = require("./api/gallery")
+const express = require("express");
+const routes = require("./api/gallery");
 const cors = require("cors");
 
 function createServer() {
-	const app = express()
-    app.use(cors({ origin: '*' }));
-	app.use(express.json())
-	app.use("/", routes)
-	return app
+  const app = express();
+  app.use(cors({ origin: "*" }));
+  app.use(express.json());
+  app.use("/", routes);
+  return app;
 }
 
-module.exports = createServer
+module.exports = createServer;
