@@ -115,7 +115,6 @@ routes.route("/today").get(async (req, res) => {
     }
 
     try {
-        console.log(api)
         apiResponse = await fetch(api)
     } catch (error) {
         res.status(400).json(fetchError)
