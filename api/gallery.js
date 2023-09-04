@@ -103,6 +103,11 @@ async function downloadImage(url, directory = "downloads") {
   }
 }
 
+/**
+ *
+ * This route will retrieve the APOD of this day and send it to the frontend.
+ *
+ */
 routes.route("/today").get(async (req, res) => {
   let apiResponse = null;
   let apiResult = null;
@@ -147,15 +152,35 @@ routes.route("/today").get(async (req, res) => {
   });
 });
 
+/**
+ * This route will retrieve all images from the database and send it to the frontend.
+ */
 routes.route("/").get(function (req, res) {
   const db = dbo.getDb();
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  const offset = (page - 1) * pageSize;
+
   // TODO: This route will serve the frontend. Implementation is needed.
-  ImageData = db.all(`SELECT * FROM images;`, [], (err, rows) => {
-    if (err) {
-      console.error(err.message);
+  // ImageData = db.all(`SELECT * FROM images;`, [], (err, rows) => {
+  //   if (err) {
+  //     console.error(err.message);
+  //   }
+  //   res.send(rows);
+  // });
+
+  db.all(
+    `SELECT * FROM images LIMIT ? OFFSET ?;`,
+    [pageSize, offset],
+    (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        res.status(500).json({ error: "Internal Server Error" });
+        return;
+      }
+      res.json(rows);
     }
-    res.send(rows);
-  });
+  );
 });
 
 routes.route("/delete/:id").delete(function (req, res) {
